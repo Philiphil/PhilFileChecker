@@ -1,0 +1,11 @@
+[
+    {
+        "File" : "/home/tsorriaux/src/script/PDT/",
+        "Orders" : [
+            {
+                "Type" : "delete",
+                "Param" : ["/home/tsorriaux/src/web/demo2/var/cache/"]
+            }
+        ]
+    }
+]

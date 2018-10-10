@@ -47,11 +47,12 @@ func explore(monitoredfilelocation string)(contents map[string]string){
         }else{
 			contents[str] =  f.ModTime().Format(time.RFC3339) 
         }
-    }
-   return
+	}
+	return
 }
 
 func getDiff(oldstate  map[string]string, newstate  map[string]string) (diff map[string]string){
+	diff = map[string]string{}
 	for key, val := range newstate {
 		if o_val, ok :=oldstate[key];ok {
 			delete(oldstate, key)
