@@ -1,18 +1,12 @@
 package main
 import (
 	"os"
-	//"os/exec"
 	"fmt"
 	"flag"
 	"io/ioutil"
-	//"bufio"
-	//"strings"
-	//"net/http"
-	//"strconv"
-	//"time"
-	//"runtime"
+	"time"
+	"runtime"
 	"encoding/json"
-	//"html"
 )
 
 type OrderType string;
@@ -36,12 +30,11 @@ type Trigger struct{
 
 var(
 	_GIT_IGNORE=true;
+	_SILENT=false;
 )
 func init() {
 	_GIT_IGNORE = *flag.Bool("git-ignore", true, ".git folder are ignored by default")
-	//wordPtr := flag.String("word", "foo", "a string")
-	//var svar string
-	//flag.StringVar(&svar, "svar", "bar", "a string var")
+	_SILENT = *flag.Bool("silent", false, "silent mode")
 	flag.Parse()
 
 }
@@ -56,27 +49,40 @@ func main(){
 	for _,Trigger := range Triggers {
 		go cycle(Trigger)
 	}
-	for ;;{
+	for {
+		select{
+		default:		
+			time.Sleep(250 * time.Millisecond)
+			runtime.Gosched()
+		}
 	}
-
 }
 
 func cycle(T Trigger){
-	fmt.Println(T)
+	if(!_SILENT) {
+		fmt.Println(T)
+	}
 	old_state := explore(T.File)
-	for ;; {
+	for {
+		runtime.Gosched()
 		new_state := explore(T.File)
+		//fmt.Print(new_state)
 		diff := getDiff(old_state, new_state)
 		old_state=new_state
 		if len(diff) > 0{
 			executeTrigger(T)
 		}
+        time.Sleep(500 * time.Millisecond)
+		runtime.Gosched()
 	}
 }
 
 func executeTrigger(T Trigger){
-	fmt.Println("Triggered", T)
+	if(!_SILENT) {
+		fmt.Println("Triggered", T)
+	}
 	for _, order := range T.Orders {
+		runtime.Gosched()
 		switch order.Type {
 			case OT_delete : 
 				orderDelete(order)

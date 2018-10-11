@@ -1,17 +1,8 @@
 package main
 import (
 	"os"
-	//"os/exec"
-	//"fmt"
 	"io/ioutil"
-	//"bufio"
-	//"strings"
-	//"net/http"
-	//"strconv"
 	"time"
-	//"runtime"
-	//"encoding/json"
-	//"html"
 )
 
 func isDirectory(path string) (bool, error) {
@@ -31,6 +22,10 @@ func directorySeparator(path string) (newpath string) {
 }
 
 func explore(monitoredfilelocation string)(contents map[string]string){
+	if boolean, r := isDirectory( monitoredfilelocation ); boolean && r == nil{
+		monitoredfilelocation = directorySeparator(monitoredfilelocation)
+	}
+	
 	contents = map[string]string{}
  	files, _ := ioutil.ReadDir(monitoredfilelocation)
    	for _, f := range files {
@@ -38,7 +33,7 @@ func explore(monitoredfilelocation string)(contents map[string]string){
 			continue
 	   	}
    		str := monitoredfilelocation + f.Name()
-        if boolean, _ := isDirectory( str ); boolean{
+        if boolean, r := isDirectory( str ); boolean && r == nil{
 			str = directorySeparator(str)
 			contents[str] =  f.ModTime().Format(time.RFC3339) 
 			for k, v := range explore(str) {
