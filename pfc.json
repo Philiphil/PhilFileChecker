@@ -1,10 +1,10 @@
 [
     {
-        "File" : "/home/tsorriaux/src/web/demo2/app/code/local/Sample",
+        "Files" : ["/home/tsorriaux/src/web/demo2/app/code/local/Sample"],
         "Orders" : [
             {
                 "Type" : "delete",
-                "Param" : ["/home/tsorriaux/src/web/demo2/var/cache/"]
+                "Params" : ["/home/tsorriaux/src/web/demo2/var/cache/"]
             }
         ]
     }

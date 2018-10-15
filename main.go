@@ -20,11 +20,11 @@ const(
 
 type Order struct{
 	Type OrderType
-	Param []string
+	Params []string
 }
 
 type Trigger struct{
-	File string
+	Files []string
 	Orders []Order
 }
 
@@ -43,7 +43,8 @@ func main(){
 	var Triggers []Trigger
 	file, err := ioutil.ReadFile("./pfc.json")
 	if err != nil {
-    	fmt.Println("pfc.json not found")
+		fmt.Println("pfc.json not found")
+		return
     }
 	json.Unmarshal(file, &Triggers)
 	for _,Trigger := range Triggers {
@@ -62,18 +63,24 @@ func cycle(T Trigger){
 	if(!_SILENT) {
 		fmt.Println(T)
 	}
-	old_state := explore(T.File)
+
+	old_states :=make([]map[string]string, len(T.Files))
+	for i,e := range T.Files{
+		old_states[i] = explore(e)
+	}
+
 	for {
-		runtime.Gosched()
-		new_state := explore(T.File)
-		//fmt.Print(new_state)
-		diff := getDiff(old_state, new_state)
-		old_state=new_state
-		if len(diff) > 0{
-			executeTrigger(T)
+		for i,e := range T.Files{
+			runtime.Gosched()
+			new_state := explore(e)
+			diff := getDiff(old_states[i], new_state)
+			old_states[i]=new_state
+			if len(diff) > 0{
+				executeTrigger(T)
+			}
+			time.Sleep(500 * time.Millisecond)
+			runtime.Gosched()
 		}
-        time.Sleep(500 * time.Millisecond)
-		runtime.Gosched()
 	}
 }
 
@@ -91,9 +98,11 @@ func executeTrigger(T Trigger){
 }
 
 func orderDelete(O Order){
-	if ok, _ := isDirectory(O.Param[0]); ok{
-		os.RemoveAll(O.Param[0])
-	}else{
-		os.Remove(O.Param[0])
+	for _,e := range O.Params{
+		if ok, _ := isDirectory(e); ok{
+			os.RemoveAll(e)
+		}else{
+			os.Remove(e)
+		}
 	}
 }
