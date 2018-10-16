@@ -1,6 +1,5 @@
 package main
 import (
-	"os"
 	"fmt"
 	"flag"
 	"io/ioutil"
@@ -72,18 +71,10 @@ func executeTrigger(T Trigger){
 	for _, order := range T.Orders {
 		runtime.Gosched()
 		switch order.Type {
-			case OT_delete : 
-				orderDelete(order)
+			case OT_delete : orderDelete(order)
+			case OT_ftp_sync : orderFtpSync(order)
+			case OT_minify : orderMinify(order)
 		}
 	}
 }
 
-func orderDelete(O Order){
-	for _,e := range O.Params{
-		if ok, _ := isDirectory(e); ok{
-			os.RemoveAll(e)
-		}else{
-			os.Remove(e)
-		}
-	}
-}

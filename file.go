@@ -33,13 +33,13 @@ func explore(monitoredfilelocation string)(contents map[string]string){
 			continue
 	   	}
    		str := monitoredfilelocation + f.Name()
-        if boolean, r := isDirectory( str ); boolean && r == nil{
+        if boolean, r := isDirectory( str ); (boolean && r == nil){
 			str = directorySeparator(str)
 			contents[str] =  f.ModTime().Format(time.RFC3339) 
 			for k, v := range explore(str) {
 				contents[k] = v
 			}
-        }else{
+        }else if (r == nil){
 			contents[str] =  f.ModTime().Format(time.RFC3339) 
         }
 	}

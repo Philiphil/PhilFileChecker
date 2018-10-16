@@ -7,6 +7,7 @@ const(
 	OT_git_push OrderType = "git_push"
 	OT_ftp_sync OrderType = "ftp_sync"
 	OT_execute	OrderType= "execute"
+	OT_minify OrderType = "minify"
 )
 
 type Order struct{
