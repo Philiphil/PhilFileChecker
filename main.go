@@ -16,7 +16,6 @@ func init() {
 	_GIT_IGNORE = *flag.Bool("git-ignore", true, ".git folder are ignored by default")
 	_SILENT = *flag.Bool("silent", false, "silent mode")
 	flag.Parse()
-
 }
 
 func main(){
