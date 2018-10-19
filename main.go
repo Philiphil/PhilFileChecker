@@ -65,7 +65,10 @@ func cycle(T Trigger){
 
 func executeTrigger(T Trigger){
 	if(!_SILENT) {
-		fmt.Println("Triggered", T)
+		
+		current_time := time.Now()
+		
+		fmt.Println(current_time.Format("3h4:5"),"Triggered", T)
 	}
 	for _, order := range T.Orders {
 		runtime.Gosched()
