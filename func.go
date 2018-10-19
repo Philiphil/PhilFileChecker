@@ -6,7 +6,8 @@ import (
 	"fmt"
     "crypto/sha256"
     "io"
-    "encoding/hex"
+	"encoding/hex"
+	"regexp"
 	"github.com/dutchcoders/goftp"
 )
 
@@ -103,14 +104,14 @@ func orderMinify(O Order){
 }
 
 func minify(file string){
-	/*
-	get file Content
-	filtrer file COntent{
+    r, _ := regexp.Compile("\\.(.+)*")
+	typef := r.FindString(file)
+	typef = typef[1:]
+	switch typef {
+		case "css":
+		case "html":
+		case "js":
+		default:
 		
-/(((\/\/|#)(.*)?(\r|\n))|(([\/\*])(.*)?(\*\/))|((\<\!\-\-)(.*)?(\-\-\>)))/mg
-^must not work in "'`
 	}
-	enrengistre file Content Filtré sous file.min
-	
-	*/
 }
