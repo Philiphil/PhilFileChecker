@@ -7,7 +7,8 @@ import (
     "crypto/sha256"
     "io"
 	"encoding/hex"
-	"regexp"
+//	"regexp"
+//	"strings"
 	"github.com/dutchcoders/goftp"
 )
 
@@ -97,21 +98,24 @@ func orderMinify(O Order){
         }else if (r == nil){
 			minify(e)
         }else{
-			//nothing
 			fmt.Println(e, "does not exists")
 		}
 	}
 }
 
 func minify(file string){
-    r, _ := regexp.Compile("\\.(.+)*")
-	typef := r.FindString(file)
-	typef = typef[1:]
-	switch typef {
-		case "css":
-		case "html":
-		case "js":
-		default:
-		
-	}
+/*	typef := getFileType(file)
+	s := ""
+	c := ""
+	for _, line := range getFileContent(file) {
+		//langage 
+
+		switch typef {
+			case "css":
+			case "html":
+			case "js":
+			default:
+			
+		}
+	}*/
 }

@@ -19,6 +19,9 @@ func init() {
 }
 
 func main(){
+	//minify("/home/tsorriaux/src/script/PDT/test.css")
+	//return;
+
 	var Triggers []Trigger
 	file, err := ioutil.ReadFile("./pfc.json")
 	if err != nil {

@@ -2,8 +2,37 @@ package main
 import (
 	"os"
 	"io/ioutil"
+	"bufio"
 	"time"
+	"regexp"
 )
+
+func writeToFile(write string, file string){
+	ioutil.WriteFile(file, []byte(write), 0644) 
+}
+
+func getFileType(file string)(typef string){
+    r, _ := regexp.Compile("\\.(.+)*")
+	typef = r.FindString(file)
+	return typef[1:]
+}
+
+func getFileContent(file string)(string){
+	content, _ := ioutil.ReadFile(file)
+	return string(content)
+}
+
+func getFileContentLine(file string)(content []string){
+	File, _ := os.Open(file)
+    defer File.Close()
+
+    scanner := bufio.NewScanner(File)
+    for scanner.Scan() {
+        content = append(content, scanner.Text())
+	}
+	return
+}
+
 
 func isDirectory(path string) (bool, error) {
     if  fileInfo, err := os.Stat(path); err == nil{
