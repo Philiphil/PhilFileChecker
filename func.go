@@ -104,11 +104,20 @@ func orderMinify(O Order){
 }
 
 func minify(file string){
-/*	typef := getFileType(file)
-	s := ""
-	c := ""
-	for _, line := range getFileContent(file) {
-		//langage 
+/**/
+	typef := getFileType(file)
+	//str := ""
+	//instr := ""
+	for _, line := range getFileContentLine(file) {
+		//langage agnostic
+		for _, char := range line{
+			switch string(char){
+			case "'": 
+			case "\"":
+			case "`":
+			}
+		}
+		
 
 		switch typef {
 			case "css":
@@ -117,5 +126,5 @@ func minify(file string){
 			default:
 			
 		}
-	}*/
+	}/**/
 }
