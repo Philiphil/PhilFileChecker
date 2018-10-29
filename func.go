@@ -28,7 +28,15 @@ func orderFtpSync(O Order){
 		prevoir lecture params pour prot/host/port/login/pass/key location
 		prevoir de pas recreer /local/dir  dans /dist/dir qui ferait /dist/dir/dir
 
-	*/
+	
+	host := O.Params[0]
+	port := O.Params[1]
+	user := O.Params[2]
+	pass := O.Params[3]
+	folder := O.Params[4]
+*/
+
+
 	var ftp *goftp.FTP
 
     var err error
