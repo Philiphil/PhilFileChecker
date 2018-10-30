@@ -9,14 +9,18 @@ func minify(file string){
 	var strings []StringInFile
 	var delimiters []Delimiter
 
-	if t_file != "html"{
-		strings =  append( strings, minify_searchForString(s_file, []string{"\"", "'", "`"})... )
-	}else{
-		//strings =  append( strings, minify_searchForStringHTML(s_file, []string{"\"", "'", "`"})... )
-	}
 	switch t_file {
-	case "css":
-		delimiters = append(delimiters, Delimiter{"//", newlinetoken})
+		case "html" : 
+			//strings =  append( strings, minify_searchForStringHTML(s_file)... )
+			delimiters = append(delimiters, Delimiter{"<!--", "-->"})
+		case "css":
+			strings =  append( strings, minify_searchForString(s_file, []string{"\"", "'", "`"})... )
+			delimiters = append(delimiters, Delimiter{"//", newlinetoken})
+			delimiters = append(delimiters, Delimiter{"/*", "*/"})
+		case "js":
+			strings =  append( strings, minify_searchForString(s_file, []string{"\"", "'", "`"})... )
+			delimiters = append(delimiters, Delimiter{"//", newlinetoken})
+			delimiters = append(delimiters, Delimiter{"/*", "*/"})
 	}
 
 	
