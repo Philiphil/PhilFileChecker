@@ -1,2 +1,2 @@
 #!/bin/bash
-go run main.go file.go obj.go func.go orders.go
+go run main.go file.go obj.go func.go orders.go minify_fn.go
