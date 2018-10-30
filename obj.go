@@ -20,3 +20,10 @@ type Trigger struct{
 	Files []string
 	Orders []Order
 }
+
+
+//MINIFY
+type StringInFile struct{
+	Begin int
+	End int
+}
