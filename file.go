@@ -3,6 +3,7 @@ import (
 	"os"
 	"io/ioutil"
 	"bufio"
+	"strings"
 	"time"
 	"regexp"
 )
@@ -14,7 +15,7 @@ func writeToFile(write string, file string){
 func getFileType(file string)(typef string){
     r, _ := regexp.Compile("\\.(.+)*")
 	typef = r.FindString(file)
-	return typef[1:]
+	return strings.ToLower(typef[1:])
 }
 
 func getFileContent(file string)(string){

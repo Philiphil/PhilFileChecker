@@ -23,7 +23,13 @@ type Trigger struct{
 
 
 //MINIFY
+const newlinetoken string = "\\~~#~#&&/NEWLINETOKEN/19*!ou;Hze"
 type StringInFile struct{
 	Begin int
 	End int
+}
+
+type Delimiter struct{
+	Begin string
+	End string
 }

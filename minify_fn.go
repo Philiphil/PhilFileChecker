@@ -1,14 +1,25 @@
 package main
-
+import(
+	
+)
 
 func minify(file string){
 	t_file := getFileType(file)
 	s_file := getFileContent(file)
-	strings :=  minify_searchForString(s_file, []string{"\"", "'", "`"})
+	var strings []StringInFile
+	var delimiters []Delimiter
 
+	if t_file != "html"{
+		strings =  append( strings, minify_searchForString(s_file, []string{"\"", "'", "`"})... )
+	}else{
+		//strings =  append( strings, minify_searchForStringHTML(s_file, []string{"\"", "'", "`"})... )
+	}
+	switch t_file {
+	case "css":
+		delimiters = append(delimiters, Delimiter{"//", newlinetoken})
+	}
 
-
-
+	
 }
 
 func minify_searchForString(s_file string, delimiters []string)(strings []StringInFile){
@@ -29,8 +40,11 @@ func minify_searchForString(s_file string, delimiters []string)(strings []String
 			}
 		}
 		stack = append(stack, string(char))
-
-		
 	}
+	return
+}
+
+func minify_filterBetween(s_file string, protected []StringInFile, from string, to string)(f_sf string){
+
 	return
 }
