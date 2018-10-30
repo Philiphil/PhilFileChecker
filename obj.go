@@ -8,6 +8,7 @@ const(
 	OT_ftp_sync OrderType = "ftp_sync"
 	OT_execute	OrderType= "execute"
 	OT_minify OrderType = "minify"
+	OT_merge_files OrderType = "merge_files"
 )
 
 type Order struct{

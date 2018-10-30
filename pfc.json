@@ -7,14 +7,5 @@
                 "Params" : ["/home/tsorriaux/src/web/destockJeans/magento/src/var/cache/"]
             }
         ]
-    },
-    {
-        "Files" : ["/home/tsorriaux/src/web/destockJeans/magento/src/app"],
-        "Orders" : [
-            {
-                "Type" : "ftp",
-                "Params" : ["host","port","user","pass","folder"]
-            }
-        ]
     }
 ]
