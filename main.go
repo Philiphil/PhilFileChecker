@@ -79,4 +79,3 @@ func executeTrigger(T Trigger){
 		}
 	}
 }
-
