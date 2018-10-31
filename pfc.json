@@ -1,10 +1,10 @@
 [
     {
-        "Files" : ["/home/tsorriaux/src/web/destockJeans/magento/src/app"],
+        "Files" : ["/home/tsorriaux/src/web/camille-fournet/magento/src/app"],
         "Orders" : [
             {
                 "Type" : "delete",
-                "Params" : ["/home/tsorriaux/src/web/destockJeans/magento/src/var/cache/"]
+                "Params" : ["/home/tsorriaux/src/web/camille-fournet/magento/src/var/cache/"]
             }
         ]
     }

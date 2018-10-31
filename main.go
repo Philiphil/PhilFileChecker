@@ -19,8 +19,8 @@ func init() {
 }
 
 func main(){
-	minify("/home/tsorriaux/src/script/PDT/test.css")
-	return;
+	//minify("/home/tsorriaux/src/script/PDT/test.css")
+	//return;
 
 	var Triggers []Trigger
 	file, err := ioutil.ReadFile("./pfc.json")
@@ -34,9 +34,9 @@ func main(){
 	}
 	for {
 		select{
-		default:		
-			time.Sleep(250 * time.Millisecond)
-			runtime.Gosched()
+			default:		
+				time.Sleep(250 * time.Millisecond)
+				runtime.Gosched()
 		}
 	}
 }

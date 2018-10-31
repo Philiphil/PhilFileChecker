@@ -54,6 +54,6 @@ func minify_filter(s_file string, protected []StringInFile, delimiters Delimiter
 	return
 }
 
-func minify_extract(strings []string, str string)([]string,string){
+func minify_extract(strings []string, str string)(rstrings []string, rstr string){
 	return
 }
