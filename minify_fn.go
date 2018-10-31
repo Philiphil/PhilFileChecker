@@ -25,7 +25,7 @@ func minify(file string){
 	for _, delimiter := range delimiters {
 		s_file, strings = minify_filter(s_file,strings,delimiter)
 	}
-	writeToFile(s_file, file[:len(file)-len(t_file)] + "min." + t_file)//substr file to file[:len(t_file)] + .min + t_file	
+	writeToFile(s_file, file[:len(file)-len(t_file)] + "min." + t_file)
 }
 
 func minify_searchForString(s_file string, delimiters []string)(strings []StringInFile){
