@@ -1,6 +1,6 @@
 package main
 import(
-	
+//	"fmt"
 )
 
 func minify(file string){
@@ -22,8 +22,10 @@ func minify(file string){
 			delimiters = append(delimiters, Delimiter{"//", newlinetoken})
 			delimiters = append(delimiters, Delimiter{"/*", "*/"})
 	}
-
-	
+	for _, delimiter := range delimiters {
+		s_file, strings = minify_filter(s_file,strings,delimiter)
+	}
+	writeToFile(s_file, file[:len(file)-len(t_file)] + "min." + t_file)//substr file to file[:len(t_file)] + .min + t_file	
 }
 
 func minify_searchForString(s_file string, delimiters []string)(strings []StringInFile){
@@ -48,7 +50,7 @@ func minify_searchForString(s_file string, delimiters []string)(strings []String
 	return
 }
 
-func minify_filterBetween(s_file string, protected []StringInFile, from string, to string)(f_sf string){
+func minify_filter(s_file string, protected []StringInFile, delimiters Delimiter)(f_sf string, strings []StringInFile){
 
 	return
 }
