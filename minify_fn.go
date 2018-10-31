@@ -53,3 +53,7 @@ func minify_searchForString(s_file string, delimiters []string)(strings []String
 func minify_filter(s_file string, protected []StringInFile, delimiters Delimiter)(f_sf string, strings []StringInFile){
 	return
 }
+
+func minify_extract(strings []string, str string)([]string,string){
+	return
+}
