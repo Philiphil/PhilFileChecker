@@ -55,10 +55,20 @@ func minify_filter(s_file string, protected []StringInFile, delimiters Delimiter
 	is_in_delimiter := false
 	for index, char := range s_file {
 		s_char := string(char)
-		if s_char == string(delimiters.Begin[len(delimiters.Begin)-1]){
-			//actual char might be delimiter
-			//must verify if delimiter is complete and if 
+		if is_in_delimiter{
+			if s_char == string(delimiters.Begin[len(delimiters.End)-1]){
+				//actual char might be end delimiter
+				//must verify if delimiter is complete
+			}
+		}else{
+			if s_char == string(delimiters.Begin[len(delimiters.Begin)-1]){
+				//actual char might be delimiter
+				//must verify if delimiter is complete
+			}
 		}
+
+
+
 
 	}
 	return
