@@ -53,17 +53,24 @@ func minify_searchForString(s_file string, delimiters []string)(strings []String
 func minify_filter(s_file string, protected []StringInFile, delimiters Delimiter)(f_sf string, strings []StringInFile){
 	last_delimiter_index := 0
 	is_in_delimiter := false
+	s_bfr := ""
 	for index, char := range s_file {
 		s_char := string(char)
+		s_bfr += s_char
 		if is_in_delimiter{
 			if s_char == string(delimiters.Begin[len(delimiters.End)-1]){
 				//actual char might be end delimiter
 				//must verify if delimiter is complete
+				for len(s_char) < len(delimiters.Begin){
+					//s_char = 
+				}
 			}
 		}else{
 			if s_char == string(delimiters.Begin[len(delimiters.Begin)-1]){
-				//actual char might be delimiter
-				//must verify if delimiter is complete
+				for len(s_char) < len(delimiters.Begin){
+					s_bfr ,s_char= minify_extract(s_bfr, s_char)
+				}
+				
 			}
 		}
 
@@ -74,6 +81,6 @@ func minify_filter(s_file string, protected []StringInFile, delimiters Delimiter
 	return
 }
 
-func minify_extract(strings []string, str string)([]string,  string){
-	return strings[:len(strings)-1], str+strings[len(strings)-1]
+func minify_extract(strings string, str string)(string,  string){
+	return strings[:len(strings)-1], str+string(strings[len(strings)-1])
 }
