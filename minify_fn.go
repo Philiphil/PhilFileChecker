@@ -59,17 +59,13 @@ func minify_filter(s_file string, protected []StringInFile, delimiters Delimiter
 		s_bfr += s_char
 		if is_in_delimiter{
 			if s_char == string(delimiters.Begin[len(delimiters.End)-1]){
-				//actual char might be end delimiter
-				//must verify if delimiter is complete
 				for len(s_char) < len(delimiters.Begin){
 					//s_char = 
 				}
 			}
 		}else{
 			if s_char == string(delimiters.Begin[len(delimiters.Begin)-1]){
-				for len(s_char) < len(delimiters.Begin){
-					s_bfr ,s_char= minify_extract(s_bfr, s_char)
-				}
+				//s_char =  s_bfr[len(s_bfr)-len(delimiters.Begin):len(s_bfr)-1]+s_char
 				
 			}
 		}
