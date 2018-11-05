@@ -50,33 +50,32 @@ func minify_searchForString(s_file string, delimiters []string)(strings []String
 	return
 }
 
-func minify_filter(s_file string, protected []StringInFile, delimiters Delimiter)(f_sf string, strings []StringInFile){
-	last_delimiter_index := 0
+func minify_filter(s_file string, protected []StringInFile, delimiter Delimiter)(f_sf string, comments []StringInFile){
 	is_in_delimiter := false
 	s_bfr := ""
+
 	for index, char := range s_file {
 		s_char := string(char)
 		s_bfr += s_char
 		if is_in_delimiter{
-			if s_char == string(delimiters.Begin[len(delimiters.End)-1]){
-				for len(s_char) < len(delimiters.Begin){
-					//s_char = 
+			if s_char == string(delimiter.Begin[len(delimiter.End)-1]){
+				for len(s_char) < len(delimiter.Begin){
+					if s_bfr[len(s_bfr)-len(delimiter.Begin):len(s_bfr)-1]+s_char == delimiter.Begin{
+						is_in_delimiter = false
+						comments[len(comments)-1].End = index
+					}
 				}
 			}
 		}else{
-			if s_char == string(delimiters.Begin[len(delimiters.Begin)-1]){
-				//s_char =  s_bfr[len(s_bfr)-len(delimiters.Begin):len(s_bfr)-1]+s_char
+			if s_char == string(delimiter.Begin[len(delimiter.Begin)-1]) && len(s_bfr) >= len(delimiter.Begin){
+				if s_bfr[len(s_bfr)-len(delimiter.Begin):len(s_bfr)-1]+s_char == delimiter.Begin{
+					is_in_delimiter = true
+					comments = append(comments, StringInFile{})
+					comments[len(comments)-1].Begin = index
+				}
 				
 			}
 		}
-
-
-
-
 	}
 	return
-}
-
-func minify_extract(strings string, str string)(string,  string){
-	return strings[:len(strings)-1], str+string(strings[len(strings)-1])
 }
