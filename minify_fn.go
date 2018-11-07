@@ -1,6 +1,6 @@
 package main
 import(
-//	"fmt"
+	"fmt"
 )
 
 func minify(file string){
@@ -8,6 +8,7 @@ func minify(file string){
 	s_file := getFileContent(file)
 	var strings []StringInFile
 	var delimiters []Delimiter
+	var bfr []StringInFile
 
 	switch t_file {
 		case "html" : 
@@ -23,7 +24,10 @@ func minify(file string){
 			delimiters = append(delimiters, Delimiter{"/*", "*/"})
 	}
 	for _, delimiter := range delimiters {
-		s_file, strings = minify_filter(s_file,strings,delimiter)
+		s_file, bfr = minify_filter(s_file,strings,delimiter)
+		fmt.Println(bfr)
+		s_file, strings= minify_remove(s_file,strings,bfr)
+
 	}
 	writeToFile(s_file, file[:len(file)-len(t_file)] + "min." + t_file)
 }
@@ -50,32 +54,43 @@ func minify_searchForString(s_file string, delimiters []string)(strings []String
 	return
 }
 
+func minify_remove(s_file string, strings []StringInFile,comments []StringInFile)(f_sf string, f_strings []StringInFile){
+	for _, comment := range comments {
+		is_comment_in_string := false
+		for _, str := range strings{
+			if comment.Begin > str.Begin && comment.End < str.End{//comment end in string
+				is_comment_in_string = true
+			}
+		}
+		if !is_comment_in_string{
+
+		}
+	}
+	return
+}
+
+
 func minify_filter(s_file string, protected []StringInFile, delimiter Delimiter)(f_sf string, comments []StringInFile){
 	is_in_delimiter := false
 	s_bfr := ""
 
 	for index, char := range s_file {
-		s_char := string(char)
-		s_bfr += s_char
-		if is_in_delimiter{
-			if s_char == string(delimiter.Begin[len(delimiter.End)-1]){
-				for len(s_char) < len(delimiter.Begin){
-					if s_bfr[len(s_bfr)-len(delimiter.Begin):len(s_bfr)-1]+s_char == delimiter.Begin{
-						is_in_delimiter = false
-						comments[len(comments)-1].End = index
-					}
-				}
-			}
-		}else{
-			if s_char == string(delimiter.Begin[len(delimiter.Begin)-1]) && len(s_bfr) >= len(delimiter.Begin){
-				if s_bfr[len(s_bfr)-len(delimiter.Begin):len(s_bfr)-1]+s_char == delimiter.Begin{
-					is_in_delimiter = true
-					comments = append(comments, StringInFile{})
-					comments[len(comments)-1].Begin = index
-				}
-				
-			}
+		s_bfr += string(char)
+		if is_in_delimiter && minify_detect_delimiter(delimiter.End, s_bfr){
+			is_in_delimiter = false
+			comments[len(comments)-1].End = index - len(delimiter.End)
+		}else if !is_in_delimiter && minify_detect_delimiter(delimiter.Begin, s_bfr){
+			is_in_delimiter = true
+			comments = append(comments, StringInFile{})
+			comments[len(comments)-1].Begin = index- len(delimiter.Begin)
 		}
 	}
 	return
+}
+
+func minify_detect_delimiter(delimiter string, haystack string)(bool){
+	if delimiter == newlinetoken{
+		return minify_detect_delimiter(string("\n"),haystack) || minify_detect_delimiter(string("\r\n"),haystack)
+	}
+	return len(haystack) >= len(delimiter) && haystack[len(haystack)-len(delimiter):len(haystack)] == delimiter
 }
