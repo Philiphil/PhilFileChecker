@@ -1,6 +1,6 @@
 package main
 import(
-	//"fmt"
+	"fmt"
 )
 
 func minify(file string){
@@ -55,20 +55,26 @@ func minify_searchForString(s_file string, delimiters []string)(strings []String
 	return
 }
 
-func minify_remove(s_file string, strings []StringInFile,comments []StringInFile)(f_sf string, f_strings []StringInFile){
-	f_sf=s_file
+func minify_remove(s_file string, strings []StringInFile,comments []StringInFile)(string, []StringInFile){
 	for _, comment := range comments {
 		is_comment_in_string := false
 		for _, str := range strings{
-			if comment.Begin > str.Begin && comment.End < str.End{//comment end in string
+			if comment.Begin > str.Begin && comment.End < str.End{
 				is_comment_in_string = true
 			}
 		}
 		if !is_comment_in_string{
-			f_sf = f_sf[:comment.Begin] + f_sf[comment.End:]
+			s_file = s_file[:comment.Begin] + s_file[comment.End:]
+			for _, str := range strings{
+				if str.Begin > comment.End{//TODO DEBUG
+					str.Begin = str.Begin + comment.End - comment.Begin
+					str.End = str.End + comment.End - comment.Begin
+					fmt.Println(s_file[str.Begin:str.End])
+				}
+			}
 		}
 	}
-	return
+	return s_file, strings
 }
 
 
@@ -96,6 +102,7 @@ func minify_detect_delimiter(delimiter string, haystack string)(bool){
 	}
 	return len(haystack) >= len(delimiter) && haystack[len(haystack)-len(delimiter):len(haystack)] == delimiter
 }
+
 func minify_get_delimiter_size(delimiter string, haystack string)(int){
 	if delimiter == newlinetoken{
 		if minify_detect_delimiter(string("\n"),haystack) {
