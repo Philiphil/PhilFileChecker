@@ -1,14 +1,5 @@
 package main
 import (
-	/*"os"
-	"runtime"
-	"crypto/tls"
-	"fmt"
-    "crypto/sha256"
-    "io"
-	"encoding/hex"
-	"regexp"
-	"strings"*/
 	"reflect"
 )
 
