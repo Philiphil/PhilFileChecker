@@ -1,6 +1,6 @@
 package main
 import(
-	"fmt"
+	//"fmt"
 )
 
 func minify(file string){
@@ -25,11 +25,11 @@ func minify(file string){
 	}
 	for _, delimiter := range delimiters {
 		bfr = minify_filter(s_file,strings,delimiter)
-
-		//fmt.Println(s_file[bfr[0].Begin : bfr[0].End])
 		s_file, strings= minify_remove(s_file,strings,bfr)
-
 	}
+
+	//s_file, strings= minify_remove_white_space(s_file,strings)
+
 	writeToFile(s_file, file[:len(file)-len(t_file)] + "min." + t_file)
 }
 
@@ -66,7 +66,7 @@ func minify_remove(s_file string, strings []StringInFile,comments []StringInFile
 		if !is_comment_in_string{
 			s_file = s_file[:comment.Begin] + s_file[comment.End:]
 			for _, str := range strings{
-				if str.Begin > comment.End{//TODO DEBUG
+				if str.Begin > comment.End{
 					str.Begin = str.Begin - comment.End + comment.Begin
 					str.End = str.End - comment.End + comment.Begin
 				}
@@ -75,7 +75,6 @@ func minify_remove(s_file string, strings []StringInFile,comments []StringInFile
 	}
 	return s_file, strings
 }
-
 
 func minify_filter(s_file string, protected []StringInFile, delimiter Delimiter)(comments []StringInFile){
 	is_in_delimiter := false
@@ -112,4 +111,41 @@ func minify_get_delimiter_size(delimiter string, haystack string)(int){
 		}
 	}
 	return len(delimiter)-1
+}
+
+func minify_remove_white_space(s_file string, protected []StringInFile)(string,[]StringInFile){
+	f_sfile := "";
+	for i, char := range s_file {
+		s_char := string(char)
+		is_whitespace := false
+		is_deletable := false
+
+		switch(s_char){
+			case "\t":is_whitespace=!is_whitespace
+			case "\n":is_whitespace=!is_whitespace
+			case "\r":is_whitespace=!is_whitespace
+			case "\r\n":is_whitespace=!is_whitespace
+			case " ":is_whitespace=!is_whitespace
+		}
+
+		if is_whitespace{
+			is_deletable = true
+			for _,p := range protected {
+				if p.Begin < i && p.End > i{
+					is_deletable = false
+				}
+			}
+		}
+		if !is_deletable{
+			f_sfile += s_char
+		}else{
+			for _,p := range protected {
+				if  i < p.Begin{
+					p.Begin--
+					p.End--
+				}
+			}
+		}
+	}
+	return f_sfile, protected
 }
