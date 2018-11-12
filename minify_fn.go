@@ -71,6 +71,12 @@ func minify_remove(s_file string, strings []StringInFile,comments []StringInFile
 					str.End = str.End - comment.End + comment.Begin
 				}
 			}
+			for _, cts := range comments{
+				if cts.Begin > comment.End{
+					cts.Begin = cts.Begin - comment.End + comment.Begin
+					cts.End = cts.End - comment.End + comment.Begin
+				}
+			}
 		}
 	}
 	return s_file, strings
